@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>adminTask | Mon Calendrier</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .calendar-grid { grid-template-columns: repeat(7, 1fr); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- Sidebar (Version réduite pour plus d'espace) -->
+        <aside class="w-20 lg:w-64 bg-slate-900 text-white flex-shrink-0 flex flex-col transition-all">
+            <div class="p-6 flex justify-center lg:justify-start items-center gap-3">
+                <div class="bg-indigo-600 p-2 rounded-lg"><i class="fas fa-check-double"></i></div>
+                <span class="text-xl font-bold tracking-tight hidden lg:block">adminTask</span>
+            </div>
+            <nav class="flex-1 px-4 py-4 space-y-2">
+                <a href="#" class="flex items-center justify-center lg:justify-start gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 rounded-xl transition">
+                    <i class="fas fa-home w-5 text-center"></i> <span class="hidden lg:block">Mon Espace</span>
+                </a>
+                <a href="#" class="flex items-center justify-center lg:justify-start gap-3 px-4 py-3 bg-indigo-600 text-white rounded-xl transition">
+                    <i class="fas fa-calendar-alt w-5 text-center"></i> <span class="hidden lg:block">Calendrier</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col">
+            
+            <!-- Header -->
+            <header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-8">
+                <div class="flex items-center gap-4">
+                    <h1 class="text-lg font-bold text-slate-800">Mai 2026</h1>
+                    <div class="flex items-center bg-slate-100 rounded-lg p-1">
+                        <button class="p-1.5 hover:bg-white hover:shadow-sm rounded-md transition"><i class="fas fa-chevron-left text-xs"></i></button>
+                        <button class="px-3 py-1 text-xs font-bold bg-white shadow-sm rounded-md uppercase">Aujourd'hui</button>
+                        <button class="p-1.5 hover:bg-white hover:shadow-sm rounded-md transition"><i class="fas fa-chevron-right text-xs"></i></button>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-indigo-700 transition">
+                        <i class="fas fa-plus"></i> <span class="hidden sm:inline">Ajouter un rappel</span>
+                    </button>
+                </div>
+            </header>
+
+            <div class="flex-1 flex overflow-hidden">
+                
+                <!-- Calendar View -->
+                <div class="flex-1 p-6 overflow-y-auto">
+                    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+                        <!-- Days Header -->
+                        <div class="calendar-grid grid border-b border-slate-100 bg-slate-50/50">
+                            <div class="p-4 text-center text-xs font-bold text-slate-400 uppercase">Lun</div>
+                            <div class="p-4 text-center text-xs font-bold text-slate-400 uppercase">Mar</div>
+                            <div class="p-4 text-center text-xs font-bold text-slate-400 uppercase">Mer</div>
+                            <div class="p-4 text-center text-xs font-bold text-slate-400 uppercase">Jeu</div>
+                            <div class="p-4 text-center text-xs font-bold text-slate-400 uppercase">Ven</div>
+                            <div class="p-4 text-center text-xs font-bold text-slate-400 uppercase">Sam</div>
+                            <div class="p-4 text-center text-xs font-bold text-slate-400 uppercase">Dim</div>
+                        </div>
+                        
+                        <!-- Grid Days -->
+                        <div class="calendar-grid grid auto-rows-[120px]">
+                            <!-- Day Cell (Example with task) -->
+                            <div class="p-2 border-r border-b border-slate-100 relative group hover:bg-slate-50 transition">
+                                <span class="text-sm font-medium text-slate-400">10</span>
+                            </div>
+                            <div class="p-2 border-r border-b border-slate-100 relative bg-indigo-50/30">
+                                <span class="text-sm font-bold text-indigo-600">11</span>
+                                <div class="mt-2 space-y-1">
+                                    <div class="px-2 py-1 bg-indigo-600 text-white text-[10px] font-bold rounded-md truncate">
+                                        <i class="fas fa-clock mr-1"></i> Sprint Review
+                                    </div>
+                                    <div class="px-2 py-1 bg-orange-400 text-white text-[10px] font-bold rounded-md truncate">
+                                        <i class="fas fa-phone mr-1"></i> Call Asterisk
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Fill other cells as needed -->
+                            <div class="p-2 border-r border-b border-slate-100 text-sm font-medium text-slate-400">12</div>
+                            <div class="p-2 border-r border-b border-slate-100 text-sm font-medium text-slate-400">13</div>
+                            <div class="p-2 border-r border-b border-slate-100 text-sm font-medium text-slate-400 relative">
+                                <span class="text-sm font-medium text-slate-400">14</span>
+                                <div class="mt-2 px-2 py-1 bg-emerald-500 text-white text-[10px] font-bold rounded-md truncate">MIMOZA v2</div>
+                            </div>
+                            <div class="p-2 border-r border-b border-slate-100 text-sm font-medium text-slate-400">15</div>
+                            <div class="p-2 border-b border-slate-100 text-sm font-medium text-slate-400 bg-slate-50/50">16</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side Panel: Today's Tasks -->
+                <div class="w-80 bg-white border-l border-slate-200 p-6 hidden xl:flex flex-col">
+                    <h2 class="font-bold text-slate-800 flex items-center gap-2 mb-6 text-lg">
+                        <i class="fas fa-list-ul text-indigo-600"></i> À faire ce jour
+                    </h2>
+                    
+                    <div class="space-y-6">
+                        <!-- Task Item -->
+                        <div class="relative pl-6 border-l-2 border-indigo-500">
+                            <p class="text-[10px] font-bold text-indigo-500 uppercase tracking-wider">09:00 - 10:30</p>
+                            <h3 class="font-bold text-slate-800 text-sm mt-1">Daily Stand-up</h3>
+                            <p class="text-xs text-slate-400 mt-1">Réunion d'équipe sur l'avancement d'AVR-Core.</p>
+                        </div>
+
+                        <div class="relative pl-6 border-l-2 border-slate-200">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">11:00 - 13:00</p>
+                            <h3 class="font-bold text-slate-800 text-sm mt-1">Debug WebSockets</h3>
+                            <p class="text-xs text-slate-400 mt-1">Corriger les déconnexions sur le dashboard.</p>
+                        </div>
+
+                        <div class="relative pl-6 border-l-2 border-emerald-500">
+                            <p class="text-[10px] font-bold text-emerald-500 uppercase tracking-wider">14:30 - 16:00</p>
+                            <h3 class="font-bold text-slate-800 text-sm mt-1">Design Login Page</h3>
+                            <p class="text-xs text-slate-400 mt-1">Finaliser les formulaires Responsive.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-auto bg-slate-900 rounded-2xl p-4 text-white">
+                        <p class="text-xs text-slate-400">Productivité du jour</p>
+                        <div class="flex items-center justify-between mt-2">
+                            <span class="font-bold">65%</span>
+                            <i class="fas fa-chart-line text-indigo-400"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

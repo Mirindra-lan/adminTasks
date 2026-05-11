@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>adminTask | Gestion des Utilisateurs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- Sidebar (Réutilisée pour la cohérence) -->
+        <aside class="w-64 bg-slate-900 text-white flex-shrink-0 hidden md:flex flex-col">
+            <div class="p-6 flex items-center gap-3">
+                <div class="bg-indigo-600 p-2 rounded-lg">
+                    <i class="fas fa-check-double text-xl"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight">adminTask</span>
+            </div>
+            <nav class="flex-1 px-4 py-4 space-y-2">
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                    <i class="fas fa-chart-pie w-5"></i>
+                    <span>Tableau de bord</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                    <i class="fas fa-tasks w-5"></i>
+                    <span>Tâches</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 bg-indigo-600 text-white rounded-xl transition shadow-lg shadow-indigo-900/20">
+                    <i class="fas fa-users w-5"></i>
+                    <span class="font-medium">Utilisateurs</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-y-auto">
+            
+            <!-- Header -->
+            <header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-8 sticky top-0 z-10">
+                <div class="flex items-center gap-4">
+                    <h1 class="text-xl font-bold text-slate-800">Membres de l'équipe</h1>
+                    <span class="bg-slate-100 text-slate-600 text-xs font-bold px-2.5 py-1 rounded-full">128 au total</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition flex items-center gap-2 shadow-sm">
+                        <i class="fas fa-user-plus text-xs"></i> Inviter un membre
+                    </button>
+                </div>
+            </header>
+
+            <div class="p-8">
+                
+                <!-- Filters & Search -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                    <div class="relative w-full md:w-96">
+                        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="text" placeholder="Rechercher un nom, email ou rôle..." 
+                            class="w-full pl-11 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition">
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <select class="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-indigo-500 outline-none cursor-pointer">
+                            <option>Tous les rôles</option>
+                            <option>Admin</option>
+                            <option>Développeur</option>
+                            <option>Designer</option>
+                        </select>
+                        <button class="p-2.5 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-600">
+                            <i class="fas fa-arrow-down-wide-short"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Users Table -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-slate-50/50 border-b border-slate-100">
+                                <tr>
+                                    <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Utilisateur</th>
+                                    <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Rôle</th>
+                                    <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Statut</th>
+                                    <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Dernière activité</th>
+                                    <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <!-- User 1 -->
+                                <tr class="hover:bg-slate-50/80 transition">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="relative">
+                                                <img class="w-10 h-10 rounded-full object-cover" src="https://ui-avatars.com/api/?name=Lantosoa+Mirindra&background=6366f1&color=fff">
+                                                <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+                                            </div>
+                                            <div>
+                                                <p class="font-bold text-slate-800">Lantosoa Mirindra</p>
+                                                <p class="text-sm text-slate-500">mirindra@admintask.io</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="text-sm font-medium text-slate-700 bg-slate-100 px-3 py-1 rounded-lg border border-slate-200">Fullstack Dev</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 uppercase">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                            Actif
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-500">Il y a 2 minutes</td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <button class="text-slate-400 hover:text-indigo-600 transition"><i class="fas fa-pen-to-square"></i></button>
+                                            <button class="text-slate-400 hover:text-red-500 transition"><i class="fas fa-user-slash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- User 2 -->
+                                <tr class="hover:bg-slate-50/80 transition">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <img class="w-10 h-10 rounded-full object-cover" src="https://ui-avatars.com/api/?name=Rakoto+Jean&background=random">
+                                            <div>
+                                                <p class="font-bold text-slate-800">Rakoto Jean</p>
+                                                <p class="text-sm text-slate-500">jean.rakoto@gmail.com</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="text-sm font-medium text-slate-700 bg-slate-100 px-3 py-1 rounded-lg border border-slate-200">Product Manager</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-bold bg-amber-50 text-amber-700 uppercase">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                                            En pause
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-500">Hier à 14:30</td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <button class="text-slate-400 hover:text-indigo-600 transition"><i class="fas fa-pen-to-square"></i></button>
+                                            <button class="text-slate-400 hover:text-red-500 transition"><i class="fas fa-user-slash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div class="px-6 py-4 border-t border-slate-100 flex items-center justify-between bg-slate-50/30">
+                        <p class="text-sm text-slate-500">Affichage de 1 à 10 sur 128 utilisateurs</p>
+                        <div class="flex items-center gap-2">
+                            <button class="px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-50">Précédent</button>
+                            <button class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-lg hover:bg-indigo-700">Suivant</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

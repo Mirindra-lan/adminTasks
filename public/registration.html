@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>adminTask | Inscription</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-white text-slate-900">
+
+    <div class="flex min-h-screen">
+        
+        <!-- Left Side: Registration Form -->
+        <div class="flex flex-col justify-center flex-1 px-8 py-12 sm:px-12 lg:flex-none lg:w-[550px] xl:w-[650px]">
+            <div class="w-full max-w-md mx-auto">
+                
+                <!-- Logo -->
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="bg-indigo-600 p-2 rounded-lg text-white">
+                        <i class="fas fa-check-double text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold tracking-tight text-slate-900">adminTask</span>
+                </div>
+
+                <div class="mb-8">
+                    <h2 class="text-3xl font-extrabold text-slate-900">Créer un compte</h2>
+                    <p class="mt-2 text-sm text-slate-500">Rejoignez la plateforme pour gérer vos projets efficacement.</p>
+                </div>
+
+                <form action="#" method="POST" class="space-y-5">
+                    <!-- Nom complet -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="firstname" class="block text-sm font-semibold text-slate-700">Prénom</label>
+                            <input id="firstname" name="firstname" type="text" required 
+                                class="mt-1 block w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 focus:ring-2 focus:ring-indigo-500 outline-none sm:text-sm transition">
+                        </div>
+                        <div>
+                            <label for="lastname" class="block text-sm font-semibold text-slate-700">Nom</label>
+                            <input id="lastname" name="lastname" type="text" required 
+                                class="mt-1 block w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 focus:ring-2 focus:ring-indigo-500 outline-none sm:text-sm transition">
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label for="email" class="block text-sm font-semibold text-slate-700">Adresse Email</label>
+                        <div class="mt-1 relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                <i class="far fa-envelope"></i>
+                            </div>
+                            <input id="email" name="email" type="email" required 
+                                class="block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl bg-slate-50 focus:ring-2 focus:ring-indigo-500 outline-none sm:text-sm transition" 
+                                placeholder="nom@exemple.com">
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div>
+                        <label for="password" class="block text-sm font-semibold text-slate-700">Mot de passe</label>
+                        <div class="mt-1 relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                <i class="fas fa-lock text-sm"></i>
+                            </div>
+                            <input id="password" name="password" type="password" required 
+                                class="block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl bg-slate-50 focus:ring-2 focus:ring-indigo-500 outline-none sm:text-sm transition" 
+                                placeholder="Min. 8 caractères">
+                        </div>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div>
+                        <label for="confirm-password" class="block text-sm font-semibold text-slate-700">Confirmer le mot de passe</label>
+                        <div class="mt-1 relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                <i class="fas fa-shield-alt text-sm"></i>
+                            </div>
+                            <input id="confirm-password" name="confirm-password" type="password" required 
+                                class="block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl bg-slate-50 focus:ring-2 focus:ring-indigo-500 outline-none sm:text-sm transition" 
+                                placeholder="Répétez le mot de passe">
+                        </div>
+                    </div>
+
+                    <!-- Terms & Conditions -->
+                    <div class="flex items-start">
+                        <div class="flex items-center h-5">
+                            <input id="terms" name="terms" type="checkbox" required 
+                                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-slate-300 rounded">
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label for="terms" class="text-slate-600">J'accepte les <a href="#" class="text-indigo-600 font-medium hover:underline">Conditions d'Utilisation</a> et la <a href="#" class="text-indigo-600 font-medium hover:underline">Politique de Confidentialité</a>.</label>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div>
+                        <button type="submit" 
+                            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all transform hover:scale-[1.01]">
+                            Créer mon compte
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Footer Login -->
+                <p class="mt-8 text-center text-sm text-slate-500">
+                    Déjà membre ? 
+                    <a href="login.html" class="font-semibold text-indigo-600 hover:text-indigo-500">Se connecter</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Right Side: Decorative (Reverse of Login) -->
+        <div class="hidden lg:block relative flex-1 w-0 bg-slate-900">
+            <div class="absolute inset-0 h-full w-full object-cover bg-[url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80')] opacity-40 grayscale"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-indigo-900 via-slate-900/80 to-transparent"></div>
+            
+            <div class="relative z-10 flex flex-col justify-end h-full p-16 text-white">
+                <div class="max-w-md">
+                    <h3 class="text-4xl font-bold mb-4">Gérez vos équipes comme un pro.</h3>
+                    <p class="text-lg text-slate-300 mb-8">Centralisez vos communications, suivez l'avancement des tâches et boostez votre productivité avec adminTask.</p>
+                    
+                    <div class="flex gap-4">
+                        <div class="flex -space-x-3">
+                            <img class="w-10 h-10 rounded-full border-2 border-slate-900" src="https://ui-avatars.com/api/?background=6366f1&color=fff">
+                            <img class="w-10 h-10 rounded-full border-2 border-slate-900" src="https://ui-avatars.com/api/?background=ec4899&color=fff">
+                            <img class="w-10 h-10 rounded-full border-2 border-slate-900" src="https://ui-avatars.com/api/?background=10b981&color=fff">
+                        </div>
+                        <div class="text-sm">
+                            <p class="font-bold">+500 développeurs</p>
+                            <p class="text-slate-400">utilisent déjà la plateforme</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

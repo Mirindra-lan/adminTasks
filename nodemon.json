@@ -1,0 +1,5 @@
+{
+    "watch": ["./index.ts", "./src"],
+    "ext": "js,ts,json",
+    "exec": "npx tsx ./index.ts"
+}
