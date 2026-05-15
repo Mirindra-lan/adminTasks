@@ -1,25 +1,27 @@
-import { FormEvent, useState } from "react";
+import { SubmitEvent, useState } from "react";
 import {
     FaCheckDouble,
     FaLock
 } from "react-icons/fa";
-
+import api from "../api.js";
 import { FiMail } from "react-icons/fi";
+import { useNavigate } from "react-router";
 
 export default function LoginPage() {
-
+    const redirect = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
 
-    function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        console.log({
-            email,
-            password,
-            rememberMe
-        });
+        const res = await api.post("/login", {email: email, pwd: password});
+        if(res.data?.success) {
+            redirect("/app");
+        } else if(res.data?.error) {
+            alert(res.data.error);
+        }
     }
 
     return (
@@ -228,46 +230,6 @@ export default function LoginPage() {
                     </blockquote>
 
                     {/* Task Card */}
-                    <div
-                        className="
-                            mt-12 w-80 rounded-2xl border border-white/20
-                            bg-white/10 p-6 backdrop-blur-lg
-                        "
-                    >
-
-                        <div className="mb-4 flex items-center gap-3">
-
-                            <div className="h-2 w-2 rounded-full bg-green-400" />
-
-                            <span
-                                className="
-                                    text-xs font-bold uppercase tracking-widest
-                                    text-slate-300
-                                "
-                            >
-                                Tâche terminée
-                            </span>
-                        </div>
-
-                        <p className="text-lg font-medium">
-                            Déploiement de la version 2.0
-                        </p>
-
-                        <div className="mt-4 flex -space-x-2">
-
-                            <img
-                                className="h-8 w-8 rounded-full border-2 border-slate-900"
-                                src="https://ui-avatars.com/api/?name=User+1&background=random"
-                                alt="User 1"
-                            />
-
-                            <img
-                                className="h-8 w-8 rounded-full border-2 border-slate-900"
-                                src="https://ui-avatars.com/api/?name=User+2&background=random"
-                                alt="User 2"
-                            />
-                        </div>
-                    </div>
                 </div>
 
                 {/* Decorative circles */}

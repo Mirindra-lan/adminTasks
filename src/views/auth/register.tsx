@@ -1,5 +1,6 @@
-import { FormEvent, useState } from "react";
+import { ChangeEvent, SubmitEvent, useState } from "react";
 import { FaCheckDouble, FaLock, FaShieldAlt } from "react-icons/fa";
+import { Link } from "react-router";
 import { FiMail } from "react-icons/fi";
 
 export default function RegisterPage() {
@@ -8,9 +9,18 @@ export default function RegisterPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [passConfirmed, setPassConfirmed] = useState(false);
     const [terms, setTerms] = useState(false);
 
-    function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    function handleConfirm(e: ChangeEvent<HTMLInputElement>) {
+        setConfirmPassword(e.target.value);
+        if(password === confirmPassword) {
+            setPassConfirmed(true)
+        } else {
+            setPassConfirmed(false)
+        }
+    }
+    function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
         e.preventDefault();
 
         console.log({
@@ -124,7 +134,7 @@ export default function RegisterPage() {
                                     type="password"
                                     className="w-full rounded-xl border bg-slate-50 py-3 pl-10 pr-3 text-sm focus:ring-2 focus:ring-indigo-500"
                                     value={confirmPassword}
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    onChange={handleConfirm}
                                 />
                             </div>
                         </div>
@@ -154,6 +164,7 @@ export default function RegisterPage() {
                         {/* Submit */}
                         <button
                             type="submit"
+                            disabled={!passConfirmed}
                             className="w-full rounded-xl bg-indigo-600 py-3 text-sm font-bold text-white hover:bg-indigo-700"
                         >
                             Créer mon compte
@@ -163,9 +174,7 @@ export default function RegisterPage() {
                     {/* footer */}
                     <p className="mt-6 text-center text-sm text-slate-500">
                         Déjà membre ?{" "}
-                        <a className="font-semibold text-indigo-600">
-                            Se connecter
-                        </a>
+                        <Link to="/login"  className="font-semibold text-indigo-600">Se connecter</Link>
                     </p>
                 </div>
             </div>

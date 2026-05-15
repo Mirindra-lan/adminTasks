@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import { createServer as createViteServer } from "vite";
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
+import { authMiddleware } from "./src/middlewares/authMiddleware.js"; 
 import cors from "cors";
 import path from "node:path";
 
@@ -21,7 +22,7 @@ async function runServer() {
 
     let html = await readFile(path.resolve(__dirname, "index.html"), "utf-8");
     
-    app.use(express.static(path.join(__dirname, "public")))
+    app.use(express.static(path.join(__dirname, "public")));
     app.use(cors({credentials: true}));
     app.use(express.json());
     app.use(express.urlencoded({extended: true}));
@@ -30,9 +31,10 @@ async function runServer() {
     
     app.use(authRoute);
     
+    app.use("/app", authMiddleware)
     app.get(/.*/, async (req, res) => {
         try {
-            html = await vite.transformIndexHtml(req.url, html);
+            html = await vite.transformIndexHtml(req.originalUrl, html);
             res.setHeader("Content-Type", "text/html");
             res.status(200).end(html);
         } catch (error) {
