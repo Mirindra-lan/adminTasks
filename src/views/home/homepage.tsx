@@ -9,6 +9,8 @@ import {
 } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router";
 
+import { SidebarUserBlock } from "./userProfil.js";
+
 // --- TYPES & INTERFACES ---
 
 interface SidebarItemProps {
@@ -60,7 +62,7 @@ export default function Dashboard() {
           <SidebarItem icon={<FaCog />} label="Paramètres" href="/app/conf"/>
         </nav>
 
-        <div className="border-t border-slate-800 p-4">
+        {/* <div className="border-t border-slate-800 p-4">
           <div className="flex items-center gap-3">
             <img
               src="https://ui-avatars.com/api/?name=L+Mirindra&background=6366f1&color=fff"
@@ -72,7 +74,8 @@ export default function Dashboard() {
               <p className="text-xs text-slate-500">Administrateur</p>
             </div>
           </div>
-        </div>
+        </div> */}
+        <SidebarUserBlock />
       </aside>
 
       {/* ZONE DE CONTENU PRINCIPALE */}

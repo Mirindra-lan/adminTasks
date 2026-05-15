@@ -31,7 +31,6 @@ async function runServer() {
     
     app.use(authRoute);
     
-    app.use("/app", authMiddleware)
     app.get(/.*/, async (req, res) => {
         try {
             html = await vite.transformIndexHtml(req.originalUrl, html);
@@ -42,6 +41,7 @@ async function runServer() {
             res.send(error);
         }
     })
+    app.use("/", authMiddleware)
     const PORT = Number(process.env.PORT) || 3002;
     server.listen(PORT, () => {
         console.log("Server running on port ", PORT);

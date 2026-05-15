@@ -7,6 +7,8 @@ import "./global.css";
 import MainPage from "./home/mainPage.js";
 import TaskManagement from "./tasks/taskPages.js";
 import UsersPage from "./users/userPages.js";
+import UserProfile from "./users/profilUser.js";
+import SettingsPage from "./settings/settingPages.js";
 
 const router = createBrowserRouter([
     {
@@ -15,7 +17,9 @@ const router = createBrowserRouter([
         children: [
             {index: true,element: <MainPage/>},
             {path: "tasks", element: <TaskManagement />},
-            {path: "users", element: <UsersPage/>}
+            {path: "users", element: <UsersPage/>},
+            {path: "profile", element: <UserProfile/>},
+            {path: "conf", element: <SettingsPage/>}
         ]
     },
     {path: "/login", element: <LoginPage/>},
