@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaTimes, FaSpinner } from "react-icons/fa";
 import { FaUserPlus } from "react-icons/fa6";
+import api from "../api.js";
 
 interface InviteMemberModalProps {
   isOpen: boolean;
@@ -24,20 +25,28 @@ export default function InviteMemberModal({ isOpen, onClose }: InviteMemberModal
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     // Simulation de l'envoi de l'invitation (API)
-    setTimeout(() => {
-      console.log("Membre invité :", { nom, prenom, email });
+    const res = await api.post("/register", {
+      name: nom,
+      lastname: prenom,
+      email: email,
+      pwd: "m123456789i"
+    });
+    if(res.data?.success){
       setLoading(false);
-      // Reset du formulaire & fermeture
-      setNom("");
-      setPrenom("");
-      setEmail("");
       onClose();
-    }, 1200);
+      alert(res.data.success);
+    } else if(res.data?.error) {
+      setLoading(false);
+      alert(res.data.error);
+    } else {
+      setLoading(false);
+      alert("Unknown error");
+    }
   };
 
   return (

@@ -23,10 +23,11 @@ export const createUser = async function createUser(user: UserType): Promise<Use
     }
 }
 
+
 export const updateUser = async function (user: User, newUser: User): Promise<User | null> {
     try {
-        const result = await pool.query("UPDATE users SET name=$1, lastname=$2, lastupdatedat=$3 WHERE id=$4  RETURNING *",
-            [newUser.name, newUser.lastname, newUser.lastupdatedat, user.id]
+        const result = await pool.query("UPDATE users SET name=$1, lastname=$2, email=$3, lastupdatedat=$4 WHERE id=$5  RETURNING *",
+            [newUser.name, newUser.lastname, newUser.email, newUser.lastupdatedat, user.id]
         );
         if(result.rowCount && result.rowCount > 0) {
             const data = result.rows[0];
@@ -34,6 +35,31 @@ export const updateUser = async function (user: User, newUser: User): Promise<Us
             user.setCreatedat(data.createdat);
             user.setLastupdatedat(data.lastupdatedat);
             user.setName(data.name);
+            user.setEmail(data.email);
+            user.setLastname(data.lastname);
+            return user;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+export const updateUserWithPass = async function (user: User, newUser: User): Promise<User | null> {
+    try {
+        const result = await pool.query("UPDATE users SET name=$1, lastname=$2, lastupdatedat=$3, email=$4, pwd=$5 WHERE id=$6  RETURNING *",
+            [newUser.name, newUser.lastname, newUser.lastupdatedat, newUser.email, newUser.pwd, user.id]
+        );
+        if(result.rowCount && result.rowCount > 0) {
+            const data = result.rows[0];
+            user.setId(data.id);
+            user.setCreatedat(data.createdat);
+            user.setLastupdatedat(data.lastupdatedat);
+            user.setName(data.name);
+            user.setEmail(data.email);
+            user.setPwd(data.pwd);
             user.setLastname(data.lastname);
             return user;
         } else {

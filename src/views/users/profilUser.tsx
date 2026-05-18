@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import {format} from "date-fns";
 import { useNavigate, useOutletContext } from "react-router";
+import clsx from "clsx";
 import { 
   FaBars, 
   FaUser, 
@@ -10,6 +12,7 @@ import {
   FaIdCard,
   FaShieldAlt 
 } from "react-icons/fa";
+import api from "../api.js";
 
 interface LayoutContext {
   sidebarOpen: boolean;
@@ -19,24 +22,81 @@ interface LayoutContext {
 export default function UserProfile() {
   const { setSidebarOpen } = useOutletContext<LayoutContext>();
   const [loading, setLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
+  const [isPassInvalid, setIsInvalid] = useState(true);
   const navigate = useNavigate();
+  const [constEmail, setConstEmail] = useState("");
+  let [fullName, setFullName] = useState("");
 
   // États du formulaire
-  const [prenom, setPrenom] = useState("Lantosoa");
-  const [nom, setNom] = useState("Mirindra");
-  const [email, setEmail] = useState("mirindra@admintask.io");
+  const [prenom, setPrenom] = useState("");
+  const [nom, setNom] = useState("");
+  const [email, setEmail] = useState("");
+  const [id, setId] = useState("");
+  const [role, setRole] = useState("");
+  const [createdAt, setCreatedAt] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
-  const handleSaveProfile = (e: React.FormEvent) => {
+  const handleSaveProfile = async (e: React.SubmitEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-      alert("Profil mis à jour avec succès !");
+    if (newPassword !== "" && currentPassword === "") {
+      setIsInvalid(false);
+      return;
+    } else {
+      setLoading(true);
+      setIsInvalid(true);
+      const data = {
+        id: id,
+        name: nom,
+        lastname: prenom,
+        email: email,
+        pwd: currentPassword,
+        newpwd: newPassword
+      }
+      const result = await api.put("/profile", data);
+      if(result.data?.success) {
+        alert(result.data.success);
+        navigate("/app/profile");
+      } else if(result.data?.error) {
+        alert(result.data.error);
+      } else {
+        alert("unknown error");
+      }
       setLoading(false);
-    }, 1000);
+    }
   };
 
+
+  useEffect(() => {
+    async function loadProfile() {
+      try {
+        const res = await api.get("/profile");
+        const data = res.data.success;
+        setPrenom(data.lastname);
+        setNom(data.name);
+        setEmail(data.email);
+        setConstEmail(data.email);
+        setFullName(data.name + " " + data.lastname);
+        setId(data.id);
+        setRole(data.role);
+        setCreatedAt(data.createdat);
+        setPageLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    loadProfile();
+  }, []);
+
+  if (pageLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent" />
+      </div>
+    );
+  }
   return (
     <main className="flex-1 flex flex-col overflow-y-auto bg-slate-50">
       
@@ -66,7 +126,7 @@ export default function UserProfile() {
             {/* Conteneur Avatar */}
             <div className="relative w-24 h-24 mx-auto mt-8 mb-4 group">
               <img
-                src="https://ui-avatars.com/api/?name=Lantosoa+Mirindra&background=6366f1&color=fff"
+                src={`https://ui-avatars.com/api/?name=${nom}+${prenom.split(" ")[0]}&background=6366f1&color=fff`}
                 alt="Avatar"
                 className="w-full h-full rounded-full object-cover border-4 border-white shadow-md"
               />
@@ -80,17 +140,17 @@ export default function UserProfile() {
             </div>
 
             {/* Infos textuelles */}
-            <h2 className="text-xl font-bold text-slate-800">{prenom} {nom}</h2>
-            <p className="text-sm text-slate-500 mt-0.5">{email}</p>
+            <h2 className="text-xl font-bold text-slate-800">{fullName}</h2>
+            <p className="text-sm text-slate-500 mt-0.5">{constEmail}</p>
             
             <div className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-indigo-50 px-3 py-1 text-xs font-bold text-indigo-700 uppercase tracking-wider">
-              <FaShieldAlt className="text-[10px]" /> Administrateur
+              <FaShieldAlt className="text-[10px]" /> {role}
             </div>
 
             <div className="border-t border-slate-100 mt-6 pt-4 text-left">
               <div className="flex justify-between text-xs text-slate-400 font-medium">
                 <span>Membre depuis</span>
-                <span className="text-slate-600">Janvier 2026</span>
+                <span className="text-slate-600">{ createdAt ? format(new Date(createdAt), "dd MMMM yyyy") : "" }</span>
               </div>
             </div>
           </div>
@@ -158,8 +218,10 @@ export default function UserProfile() {
                   type="password"
                   placeholder="••••••••"
                   value={currentPassword}
-                  onChange={(e) => setCurrentPassword(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 text-slate-800"
+                  onChange={(e) => {setCurrentPassword(e.target.value)}}
+                  className={clsx("w-full rounded-xl bg-white px-4 py-2.5 text-sm outline-none transition text-slate-800 border focus:ring-2",
+                  isPassInvalid ? "border-slate-200  focus:border-indigo-500 focus:ring-indigo-500/20"
+                  : "border-red-500 focus:border-red-500 focus:ring-red-500/20")}
                 />
               </div>
 

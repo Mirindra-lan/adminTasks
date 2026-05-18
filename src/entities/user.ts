@@ -10,7 +10,7 @@ export type UserType = {
     lastname?: string,
     id?: string,
     role?: Role,
-    createdat?: Date,
+    createdat?: Date | null,
     lastupdatedat?: Date
 }
 
@@ -23,7 +23,7 @@ class User {
     lastname: string;
     role: Role;
     lastupdatedat: Date;
-    createdat: Date;
+    createdat: Date | null;
 
     constructor({
         id = "",
@@ -32,7 +32,7 @@ class User {
         name = "",
         lastname = "",
         role = Role.USER,
-        createdat = new Date(),
+        createdat = null,
         lastupdatedat = new Date()
     }: UserType = {}) {
         this.id = id;
@@ -90,7 +90,7 @@ class User {
     getFullname(): string {
         return this.name + " " + this.lastname;
     }
-    getCreatedat(): Date {
+    getCreatedat(): Date | null {
         return this.createdat;
     }
     getLastupdatedat(): Date {

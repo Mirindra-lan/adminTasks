@@ -7,16 +7,29 @@ import { useNavigate } from "react-router";
 
 export function SidebarUserBlock() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [nom, setNom] = useState("");
+  const [prenom, setPrenom] = useState("");
+  const [role, setRole] = useState("");
   const menuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   // Fermer le menu si on clique n'importe où en dehors
   useEffect(() => {
+    async function getData() {
+      const res = await api.get("/profile");
+      if(res.data?.success) {
+        const dat = res.data.success;
+        setNom(dat.name);
+        setPrenom(dat.lastname);
+        setRole(dat.role);
+      }
+    } 
     function handleClickOutside(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setMenuOpen(false);
       }
     }
+    getData();
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -63,7 +76,7 @@ export function SidebarUserBlock() {
         <div className="flex items-center gap-3 overflow-hidden">
           <div className="relative flex-shrink-0">
             <img
-              src="https://ui-avatars.com/api/?name=L+Mirindra&background=6366f1&color=fff"
+              src={`https://ui-avatars.com/api/?name=${nom.charAt(0)}+${prenom.charAt(0)}&background=6366f1&color=fff`}
               className="h-10 w-10 rounded-full border border-slate-700 object-cover"
               alt="Avatar de l'utilisateur"
             />
@@ -72,10 +85,10 @@ export function SidebarUserBlock() {
           
           <div className="overflow-hidden">
             <p className="truncate text-sm font-semibold text-white group-hover:text-indigo-400 transition">
-              L. Mirindra
+              {nom.charAt(0)+". "+prenom}
             </p>
             <p className="truncate text-xs text-slate-500">
-              Administrateur
+              {role.toLocaleUpperCase()}
             </p>
           </div>
         </div>

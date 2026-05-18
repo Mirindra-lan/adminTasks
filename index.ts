@@ -2,6 +2,7 @@ import express from "express";
 import http from "node:http";
 import "dotenv/config";
 import authRoute from "./src/router/authRoute.js";
+import userRoute from "./src/router/userRoute.js";
 import cookieParser from "cookie-parser";
 import { createServer as createViteServer } from "vite";
 import { readFile } from "node:fs/promises";
@@ -30,18 +31,24 @@ async function runServer() {
     app.use(vite.middlewares);
     
     app.use(authRoute);
+    app.use(userRoute);
     
     app.use("/app", authMiddleware)
     app.get(/.*/, async (req, res) => {
         try {
-            html = await vite.transformIndexHtml(req.originalUrl, html);
-            res.setHeader("Content-Type", "text/html");
-            res.status(200).end(html);
+            const html = await readFile(path.resolve(__dirname, "index.html"), "utf-8");
+            const transformedHtml = await vite.transformIndexHtml(req.originalUrl,html);
+            res
+                .status(200)
+                .setHeader("Content-Type", "text/html")
+                .end(transformedHtml);
+
         } catch (error) {
             vite.ssrFixStacktrace(error as Error);
-            res.send(error);
+            console.error(error);
+            res.status(500).end();
         }
-    })
+    });
     const PORT = Number(process.env.PORT) || 3002;
     server.listen(PORT, () => {
         console.log("Server running on port ", PORT);
