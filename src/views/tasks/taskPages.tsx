@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import CreateTaskModal from "./createTasl.js";
 import {
   FaBars,
@@ -12,19 +12,24 @@ import {
   FaDatabase,
   FaCircle,
   FaFilter,
+  FaUserPlus,
 } from "react-icons/fa";
 import { useOutletContext } from "react-router";
+import api from "../api.js";
 
-type Priority = "Haute" | "Moyenne" | "Basse";
+type Priority = "high" | "mid" | "low";
 
 interface Task {
   id: number;
+  state: string;
   title: string;
-  description: string;
-  dueDate: string;
-  priority: Priority;
   category: string;
-  assignedTo: string[];
+  description: string;
+  user_id: string;
+  contributor: string;
+  priority: Priority;
+  end_time?: string;
+  createdat: string;
 }
 
 interface LayoutContext {
@@ -32,28 +37,6 @@ interface LayoutContext {
     setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const tasks: Task[] = [
-  {
-    id: 1,
-    title: "Finaliser l'intégration du système de VoIP",
-    description:
-      "Utiliser ARI d'Asterisk pour gérer les transferts d'appels entrants.",
-    dueDate: "15 Mai 2026",
-    priority: "Haute",
-    category: "Backend",
-    assignedTo: ["Mirindra", "Sara", "Alex"],
-  },
-  {
-    id: 2,
-    title: "Optimisation des requêtes MongoDB (MERN)",
-    description:
-      "Ajouter des index sur les colonnes de recherche utilisateur pour améliorer la latence.",
-    dueDate: "20 Mai 2026",
-    priority: "Moyenne",
-    category: "Database",
-    assignedTo: ["Sara K"],
-  },
-];
 
 const priorityStyles: Record<
   Priority,
@@ -63,17 +46,17 @@ const priorityStyles: Record<
     icon: React.ReactNode;
   }
 > = {
-  Haute: {
+  high: {
     text: "text-red-500",
     bg: "bg-red-50",
     icon: <FaBolt className="text-xs" />,
   },
-  Moyenne: {
+  mid: {
     text: "text-blue-500",
     bg: "bg-blue-50",
     icon: <FaCircle className="text-[8px]" />,
   },
-  Basse: {
+  low: {
     text: "text-emerald-500",
     bg: "bg-emerald-50",
     icon: <FaCircle className="text-[8px]" />,
@@ -88,6 +71,17 @@ const categoryStyles: Record<string, string> = {
 const TaskManagement: React.FC = () => {
   const {sidebarOpen, setSidebarOpen} = useOutletContext<LayoutContext>();
 	const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  useEffect(() => {
+    async function getTask() {
+      const result = await api.get("/tasks");
+      if(result.data?.tasks) {
+        const data = result.data.tasks as Task[];
+        setTasks([...tasks, ...data]);
+      }
+    }
+    getTask();
+  }, [])
   return (
     <main className="flex-1 flex flex-col overflow-y-auto">
       {/* Header */}
@@ -176,7 +170,7 @@ const TaskManagement: React.FC = () => {
                         {/* Due Date */}
                         <div className="flex items-center gap-1.5 text-xs font-medium text-slate-400">
                           <FaCalendarAlt />
-                          <span>Échéance: {task.dueDate}</span>
+                          <span>Échéance: {task.end_time}</span>
                         </div>
 
                         {/* Priority */}
@@ -208,7 +202,7 @@ const TaskManagement: React.FC = () => {
                   {/* Right */}
                   <div className="flex items-center justify-between lg:justify-end gap-6 border-t lg:border-t-0 pt-4 lg:pt-0">
                     {/* Avatars */}
-                    <div className="flex -space-x-2">
+                    {/* <div className="flex -space-x-2">
                       {task.assignedTo.slice(0, 1).map((user) => (
                         <img
                           key={user}
@@ -225,10 +219,16 @@ const TaskManagement: React.FC = () => {
                           +{task.assignedTo.length - 1}
                         </div>
                       )}
-                    </div>
+                    </div> */}
 
                     {/* Actions */}
                     <div className="flex items-center gap-2">
+                      <button
+                        className="p-2 text-slate-400 hover:text-green-600 hover:bg-indigo-50 rounded-lg transition"
+                        title="Modifier"
+                      >
+                        <FaUserPlus />
+                      </button>
                       <button
                         className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition"
                         title="Modifier"

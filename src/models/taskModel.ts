@@ -4,8 +4,8 @@ import Task from "../entities/task.js";
 
 export const createTask = async function(task: taskType) {
     try {
-        const result = await pool.query("INSERT INTO tasks(title, type, description, user_id, start_time, end_time) VALUES($1,$2,$3,$4,$5,$6) RETURNING *",
-            [task.title, task.type, task.description, task.user_id, task.start_time, task.end_time]
+        const result = await pool.query("INSERT INTO tasks(title, category, description, user_id, end_time, priority) VALUES($1,$2,$3,$4,$5,$6) RETURNING *",
+            [task.title, task.category, task.description, task.user_id, task.end_time, task.priority]
         )
         if(result.rowCount && result.rowCount > 0) {
             const task = new Task({...result.rows[0]});
@@ -20,8 +20,8 @@ export const createTask = async function(task: taskType) {
 
 export const updateTask = async function(task: taskType, newTask: taskType) {
     try {
-        const result = await pool.query("UPDATE tasks SET title=$1, type=$2, description=$3, user_id=$4, start_time=$5, end_time=$6 WHERE id=$7 RETURNING *",
-            [newTask.title, newTask.type, newTask.description, newTask.user_id, newTask.start_time, newTask.end_time, task.id]
+        const result = await pool.query("UPDATE tasks SET title=$1, category=$2, description=$3, user_id=$4, end_time=$5 WHERE id=$6 RETURNING *",
+            [newTask.title, newTask.category, newTask.description, newTask.user_id, newTask.end_time, task.id]
         )
         if(result.rowCount && result.rowCount > 0) {
             const task = new Task({...result.rows[0]});

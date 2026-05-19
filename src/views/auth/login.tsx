@@ -18,6 +18,7 @@ export default function LoginPage() {
 
         const res = await api.post("/login", {email: email, pwd: password});
         if(res.data?.success) {
+            localStorage.setItem("token", res.data.email);
             redirect("/app");
         } else if(res.data?.error) {
             alert(res.data.error);

@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { FaTimes, FaSpinner, FaCalendarAlt, FaTag, FaDatabase } from "react-icons/fa";
+import { FaTimes, FaSpinner, FaCalendarAlt, FaTag, FaDatabase, FaClock } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa6";
+import api from "../api.js";
 
 interface CreateTaskModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-type Priority = "Haute" | "Moyenne" | "Basse";
+type Priority = "high" | "mid" | "low";
 
 export default function CreateTaskModal({ isOpen, onClose }: CreateTaskModalProps) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState("");
-  const [priority, setPriority] = useState<Priority>("Moyenne");
+  const [dueTime, setDueTime] = useState("");
+  const [dueTimestamptz, setDueTimestamptz] = useState("");
+  const [priority, setPriority] = useState<Priority>("mid");
   const [category, setCategory] = useState("Backend");
   const [loading, setLoading] = useState(false);
 
@@ -28,22 +31,30 @@ export default function CreateTaskModal({ isOpen, onClose }: CreateTaskModalProp
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     setLoading(true);
-
-    // Simulation de la création de la tâche
-    setTimeout(() => {
-      console.log("Nouvelle tâche créée :", { title, description, dueDate, priority, category });
+    const data = {
+      title: title,
+      description: description,
+      category: category,
+      end_time: dueDate + "T" + dueTime + ":00",
+      priority: priority
+    }
+    console.log(data)
+    const result = await api.post("/task", data);
+    if(result.data?.success) {
+      alert(result.data.success);
       setLoading(false);
-      // Reset du formulaire & fermeture
-      setTitle("");
-      setDescription("");
-      setDueDate("");
-      setPriority("Moyenne");
-      setCategory("Backend");
       onClose();
-    }, 1200);
+    } else if(result.data?.error) {
+      alert(result.data.error);
+      setLoading(false);
+    } else {
+      alert("unknown error");
+      setLoading(false);
+    }
+
   };
 
   return (
@@ -117,6 +128,18 @@ export default function CreateTaskModal({ isOpen, onClose }: CreateTaskModalProp
               className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 text-slate-700 cursor-pointer"
             />
           </div>
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+              <FaClock className="text-slate-400 text-[11px]" /> Échéance
+            </label>
+            <input
+              type="time"
+              required
+              value={dueTime}
+              onChange={(e) => setDueTime(e.target.value)}
+              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 text-slate-700 cursor-pointer"
+            />
+          </div>
 
           {/* PRIORITÉ & CATÉGORIE (SUR LA MÊME LIGNE) */}
           <div className="grid grid-cols-2 gap-4">
@@ -129,9 +152,9 @@ export default function CreateTaskModal({ isOpen, onClose }: CreateTaskModalProp
                 onChange={(e) => setPriority(e.target.value as Priority)}
                 className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 cursor-pointer text-slate-700"
               >
-                <option value="Haute">🔴 Haute</option>
-                <option value="Moyenne">🔵 Moyenne</option>
-                <option value="Basse">🟢 Basse</option>
+                <option value="high">🔴 Haute</option>
+                <option value="mid">🔵 Moyenne</option>
+                <option value="low">🟢 Basse</option>
               </select>
             </div>
 

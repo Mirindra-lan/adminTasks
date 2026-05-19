@@ -4,13 +4,14 @@ import type { taskType } from "../entities/task.js";
 
 export const createTask = async function (req: Request, res: Response) {
     const data = req.body;
+    const id = req.userInfo.id;
     const task = {
         title: data.title,
-        type: data.type,
+        category: data.category,
         description: data.description,
-        user_id: data.user_id,
-        start_time: data.start_time,
-        end_time: data.end_time
+        user_id: id,
+        end_time: data.end_time,
+        priority: data.priority
     }
     const result = await insertTask(task);
     if(result) {
@@ -20,7 +21,7 @@ export const createTask = async function (req: Request, res: Response) {
     }
 }
 
-export const getTasks = async function(req: Request, res: Response) {
+export const getMyTasks = async function(req: Request, res: Response) {
     const id = req.params.id.toString();
     const tasks: taskType[] = [];
     const result = await getTaskByUser(id);
@@ -29,16 +30,26 @@ export const getTasks = async function(req: Request, res: Response) {
             const task = {
                 id: el.id,
                 title: el.title,
-                type: el.type,
+                category: el.category,
                 description: el.description,
                 createdat: el.createdat,
                 state: el.state,
                 user_id: el.user_id,
-                start_time: el.start_time,
                 end_time: el.end_time
             }
             tasks.push(task);
         });
         return res.status(200).json({success: tasks});
+    } else {
+        return res.json({error: "no tasks"});
+    }
+}
+
+export const getAllTasks = async function (req: Request, res: Response ) {
+    const tasks = await getAllTask();
+    if(tasks) {
+        return res.json({success: "all task", tasks: tasks});
+    } else {
+        return res.json({error: "no task found"});
     }
 }

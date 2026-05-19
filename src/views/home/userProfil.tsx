@@ -37,6 +37,7 @@ export function SidebarUserBlock() {
   const handleLogout = async () => {
     const res = await api.get("/logout");
     if(res.data?.success) {
+      localStorage.removeItem("token")
       navigate("/login");
     }
     // Insère ta logique de déconnexion ici (clear token, redirect, etc.)

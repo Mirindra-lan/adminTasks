@@ -23,7 +23,7 @@ export const login = async function login(req: Request, res: Response): Promise<
                 lastupdatedat: user.lastupdatedat
             }, SALT);
             res.cookie("token", token);
-            return res.status(200).json({success: "logged in"});
+            return res.status(200).json({success: "logged in", email: user.email});
         } else {
             return res.json({error: "wrong password"});
         }

@@ -54,7 +54,7 @@ export default function UsersPage() {
         if (results.data?.success) {
           const data = results.data.success as User[];
 
-          const dat = data.map((usr) => ({
+          let dat = data.map((usr) => ({
             ...usr,
             lastActivity: usr.lastupdatedat
               ? format(new Date(usr.lastupdatedat), "dd MMMM yyyy")
@@ -62,7 +62,11 @@ export default function UsersPage() {
             status: "Actif",
             avatar: `https://ui-avatars.com/api/?name=${usr.name}+${usr.lastname}&background=random`
           })) as User[];
-
+          dat = dat.filter(usr => {
+            if(usr.email != localStorage.getItem("token")) {
+              return usr;
+            }
+          })
           // IMPORTANT FIX (pas de spread users)
           setUsers(dat);
         }
@@ -170,7 +174,7 @@ export default function UsersPage() {
               <option>Tous les rôles</option>
               <option value="admin">Admin</option>
               <option value="user">Développeur</option>
-              <option>Designer</option>
+              <option value="designer">Designer</option>
             </select>
 
             {/* SORT */}

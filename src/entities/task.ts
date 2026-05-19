@@ -2,42 +2,46 @@ export type taskType = {
     id?: number;
     state?: string;
     title?: string;
-    type?: string;
+    category?: string;
     description?: string;
     user_id?: string;
-    start_time?: Date | null;
+    priority?: string;
     end_time?: Date | null;
     createdat?: Date | null;
+    contributor?: string;
 }
 
 class Task {
     id: number;
     state: string;
     title: string;
-    type: string;
+    category: string;
     description: string;
     user_id: string;
-    start_time: Date | null;
+    contributor: string;
+    priority: string;
     end_time: Date | null;
     createdat: Date | null;
     constructor({
         id = 0,
         title = "",
         state = "created",
-        type = "",
+        category = "",
         description = "",
         user_id = "",
-        start_time = null,
+        contributor = "",
+        priority = "Mid",
         end_time = null,
         createdat = null
     }: taskType = {}) {
         this.id = id;
+        this.contributor = contributor;
         this.state = state;
         this.title = title;
-        this.type = type;
+        this.priority = priority;
+        this.category = category;
         this.description = description;
         this.user_id = user_id;
-        this.start_time = start_time;
         this.end_time = end_time;
         this.createdat = createdat;
     }
@@ -63,10 +67,10 @@ class Task {
     }
 
     setType (type: string): void {
-        this.type = type;
+        this.category = type;
     }
     getType (): string{
-        return this.type ;
+        return this.category ;
     }
 
     setDescription (description: string): void {
@@ -83,13 +87,6 @@ class Task {
         return this.user_id ;
     }
 
-    setStartTime (start_time: Date): void {
-        this.start_time = start_time;
-    }
-    getStartTime (): Date | null{
-        return this.start_time ;
-    }
-
     setEndTime (end_time: Date): void {
         this.end_time = end_time;
     }
@@ -102,6 +99,13 @@ class Task {
     }
     getCreatedat (): Date | null{
         return this.createdat;
+    }
+
+    setPriority(pr: string) {
+        this.priority = pr;
+    }
+    getPriority(): string {
+        return this.priority
     }
 }
 

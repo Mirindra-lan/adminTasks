@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 import { createServer as createViteServer } from "vite";
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
-import { authMiddleware } from "./src/middlewares/authMiddleware.js"; 
+import taskRoute from "./src/router/taskRoute.js";
 import cors from "cors";
 import path from "node:path";
 
@@ -32,8 +32,8 @@ async function runServer() {
     
     app.use(authRoute);
     app.use(userRoute);
+    app.use(taskRoute);
     
-    app.use("/app", authMiddleware)
     app.get(/.*/, async (req, res) => {
         try {
             const html = await readFile(path.resolve(__dirname, "index.html"), "utf-8");
