@@ -18,6 +18,20 @@ export const createTask = async function(task: taskType) {
     }
 }
 
+export const addContributor = async function(id_contr: string, task_id: string) {
+    try {
+        const result = await pool.query("UPDATE tasks set contributor=$1 where id=$2 returning *", [id_contr, task_id])
+        if(result.rowCount && result.rowCount > 0) {
+            const task = new Task({...result.rows[0]});
+            return task;
+        } else {
+            return undefined;
+        }
+    } catch (error) {
+        return undefined;
+    }
+}
+
 export const updateTask = async function(task: taskType, newTask: taskType) {
     try {
         const result = await pool.query("UPDATE tasks SET title=$1, category=$2, description=$3, user_id=$4, end_time=$5 WHERE id=$6 RETURNING *",

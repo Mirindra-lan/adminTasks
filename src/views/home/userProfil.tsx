@@ -50,7 +50,7 @@ export function SidebarUserBlock() {
       {menuOpen && (
         <div className="absolute bottom-20 left-4 right-4 z-40 rounded-xl bg-slate-800 p-1.5 shadow-xl border border-slate-700/50 animate-in fade-in slide-in-from-bottom-2 duration-150">
           <button
-            onClick={() => { navigate("/app/profile"); setMenuOpen(false); }}
+            onClick={() => { navigate("/profile"); setMenuOpen(false); }}
             className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-slate-300 hover:bg-slate-700 hover:text-white transition"
           >
             <FaUser className="text-xs text-slate-400" />

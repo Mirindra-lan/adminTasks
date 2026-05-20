@@ -51,8 +51,8 @@ export default function UsersPage() {
       try {
         const results = await api.get("/users");
 
-        if (results.data?.success) {
-          const data = results.data.success as User[];
+        if (results.data?.users) {
+          const data = results.data.users as User[];
 
           let dat = data.map((usr) => ({
             ...usr,
@@ -106,7 +106,7 @@ export default function UsersPage() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="flex w-full h-screen items-center justify-center">
         <div className="h-10 w-10 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent" />
       </div>
     );
@@ -227,20 +227,23 @@ export default function UsersPage() {
           <div className="flex items-center justify-between border-t border-slate-100 bg-slate-50/30 px-6 py-4">
 
             <p className="text-sm text-slate-500">
-              Affichage de 1 à 10 sur {filteredUsers.length} utilisateurs
+              {filteredUsers.length > 10 ? "Affichage de 1 à 10 sur " : ""}{filteredUsers.length} utilisateurs
             </p>
+            {
+              filteredUsers.length > 10 ?
+                <div className="flex items-center gap-2">
 
-            <div className="flex items-center gap-2">
+                  <button className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50">
+                    Précédent
+                  </button>
 
-              <button className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50">
-                Précédent
-              </button>
+                  <button className="rounded-lg border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700">
+                    Suivant
+                  </button>
 
-              <button className="rounded-lg border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700">
-                Suivant
-              </button>
-
-            </div>
+                </div>
+              : <></>
+            }
           </div>
 
         </div>

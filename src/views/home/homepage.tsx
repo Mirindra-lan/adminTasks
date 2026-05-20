@@ -56,10 +56,10 @@ export default function Dashboard() {
         </div>
 
         <nav className="flex-1 space-y-2 px-4 py-4">
-          <SidebarItem icon={<FaChartPie />} label="Tableau de bord" active href="/app"/>
-          <SidebarItem icon={<FaTasks />} label="Tâches" href="/app/tasks"/>
-          <SidebarItem icon={<FaUsers />} label="Utilisateurs" href="/app/users"/>
-          <SidebarItem icon={<FaCog />} label="Paramètres" href="/app/conf"/>
+          <SidebarItem icon={<FaChartPie />} label="Tableau de bord" active href="/"/>
+          <SidebarItem icon={<FaTasks />} label="Tâches" href="/tasks"/>
+          <SidebarItem icon={<FaUsers />} label="Utilisateurs" href="/users"/>
+          <SidebarItem icon={<FaCog />} label="Paramètres" href="/conf"/>
         </nav>
 
         {/* <div className="border-t border-slate-800 p-4">
@@ -107,7 +107,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
 }) => (
   <NavLink
     to={href}
-    end={href === "/app"}
+    end={href === "/"}
     className={({ isActive }) =>
       `
       flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all

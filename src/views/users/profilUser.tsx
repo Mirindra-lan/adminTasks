@@ -57,7 +57,7 @@ export default function UserProfile() {
       const result = await api.put("/profile", data);
       if(result.data?.success) {
         alert(result.data.success);
-        navigate("/app/profile");
+        navigate("/profile");
       } else if(result.data?.error) {
         alert(result.data.error);
       } else {
@@ -240,7 +240,7 @@ export default function UserProfile() {
             {/* BARRE D'ACTIONS INFERIEURE */}
             <div className="flex items-center justify-end gap-4">
               <button
-                onClick={() => {navigate("/app")}}
+                onClick={() => {navigate("/")}}
                 type="button"
                 className="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition"
               >

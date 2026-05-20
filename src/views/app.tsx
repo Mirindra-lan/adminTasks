@@ -12,7 +12,7 @@ import ProtectedRoute from "./auth/protected.js";
 
 const router = createBrowserRouter([
     {
-        path: "/app",
+        path: "/",
         element: <ProtectedRoute/>,
         children: [
             {index: true,element: <MainPage/>},

@@ -61,7 +61,7 @@ export const updateUserC = async function(req: Request, res: Response) {
 export const allUsers = async function(req: Request, res: Response) {
     const users = await getAllUsers();
     if(users) {
-        res.json({success: users});
+        res.json({success: "get users successfully", users: users});
     } else {
         res.json({error: "failed to load users"});
     }

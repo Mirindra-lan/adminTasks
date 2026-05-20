@@ -1,4 +1,4 @@
-import { createTask  as insertTask, deleleTask, updateTask, changeState, getAllTask, getTaskById, getTaskByUser } from "../models/taskModel.js";
+import { createTask  as insertTask, deleleTask, updateTask, changeState, getAllTask, getTaskById, getTaskByUser, addContributor } from "../models/taskModel.js";
 import type { Request, Response } from "express";
 import type { taskType } from "../entities/task.js";
 
@@ -51,5 +51,25 @@ export const getAllTasks = async function (req: Request, res: Response ) {
         return res.json({success: "all task", tasks: tasks});
     } else {
         return res.json({error: "no task found"});
+    }
+}
+
+export const addContr = async function(req: Request, res: Response) {
+    const { contr_id, task_id } = req.body;
+    const task = await addContributor(contr_id, task_id);
+    if(task) {
+        return res.json({success: "adding contributor successfully", task: task});
+    } else {
+        return res.json({error: "update failed"});
+    }
+    
+}
+export const delTask = async function(req: Request, res: Response) {
+    const taskId = req.params.taskId;
+    const task = await deleleTask(Number(taskId));
+    if(task) {
+        return res.json({success: "delete task successfully", task: task});
+    } else {
+        return res.json({error: "delete failed"});
     }
 }
